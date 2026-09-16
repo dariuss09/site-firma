@@ -244,7 +244,6 @@ select option { background: var(--ink); }
 </header>
 
 <main id="top">
-  <!-- Secțiunile Hero, Servicii, Portofoliu, Despre rămân nemodificate -->
   <section class="hero" id="hero">
     <div class="hero-bg" aria-hidden="true">
       <div class="crop-bar crop-bar--tl"></div>
@@ -420,13 +419,8 @@ select option { background: var(--ink); }
       </div>
       <div class="grid lg:grid-cols-12 gap-12">
         
-        <!-- AICI ESTE FORMULARUL MODIFICAT -->
-        <form id="contact-form" action="https://formsubmit.co/cristinescudarius2@gmail.com" method="POST" class="lg:col-span-7 reveal">
-          
-          <!-- Câmpuri ascunse pentru FormSubmit -->
-          <input type="hidden" name="_subject" value="Cerere de ofertă nouă - SEMNE TEHNO">
-          <input type="hidden" name="_autoresponse" value="Vă mulțumim! Am primit solicitarea și revenim cu o ofertă în scurt timp. - SEMNE TEHNO">
-          
+        <!-- Formular curățat, fără atribute action/method (sunt gestionate de JS) -->
+        <form id="contact-form" class="lg:col-span-7 reveal">
           <div class="form-row">
             <label for="f-name">Nume</label>
             <input id="f-name" name="nume" type="text" required placeholder="Numele tău">
@@ -708,25 +702,47 @@ select option { background: var(--ink); }
     document.addEventListener('mouseleave', () => gsap.to(cursor, { opacity: 0, duration: 0.3 }));
   }
 
-  /* SCRIPT MODIFICAT PENTRU A PERMITE TRIMITEREA FORMULARULUI SPRE FORMSUBMIT */
+  /* Logica actualizata pentru conectarea cu Google Sheets */
   function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
     const submitLabel = document.getElementById('submit-label');
     const note = document.getElementById('form-note');
     
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUxyqsTFyFh9zhxcZ3zdKIQoAWgQWZJJzZ5VMM-9h6gnKTs1Epjt4yKogP1_DwLZ-h/exec"; 
+    
     form.addEventListener('submit', (e) => {
-      // Verificăm dacă toate câmpurile sunt completate corect
+      e.preventDefault();
+      
       if (!form.checkValidity()) {
-        e.preventDefault(); // Oprim trimiterea doar dacă e incomplet
         form.classList.add('is-invalid');
         note.textContent = 'Completează câmpurile obligatorii (nume, email, detalii comandă).';
         note.style.color = '#EC0868';
-      } else {
-        // Dacă e corect, schimbăm textul butonului și lăsăm browserul să facă POST
-        form.classList.remove('is-invalid');
-        submitLabel.textContent = 'Se trimite...';
+        return;
       }
+      
+      form.classList.remove('is-invalid');
+      submitLabel.textContent = 'Se procesează...';
+      
+      const formData = new FormData(form);
+      
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      }).then(() => {
+        submitLabel.textContent = 'Cerere trimisă ✓';
+        note.textContent = 'Am primit cererea. O să găsești o confirmare pe email.';
+        note.style.color = 'rgba(247, 245, 239, 0.7)';
+        form.reset();
+        
+        setTimeout(() => { 
+          submitLabel.textContent = 'Trimite cererea'; 
+        }, 4000);
+      }).catch(error => {
+        submitLabel.textContent = 'Eroare';
+        note.textContent = 'A apărut o problemă la trimitere. Încearcă telefonic.';
+      });
     });
   }
 
