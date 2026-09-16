@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#F7F5EF">
 <title>SEMNE TEHNO S.R.L. — Tipografie Ploiești | Print digital, offset & format mare</title>
-<meta name="description" content="SEMNE TEHNO S.R.L. — tipografie în Ploiești. Print digital, print offset, print format mare și personalizări. Strada Rahovei 41, 100028 Ploiești.">
+<meta name="description" content="SEMNE TEHNO S.R.L. — tipografie în Ploiești. Print digital, print offset, print format mare și personalizări. Str. Marin Brutaru nr. 11, Ploiești. Incinta UZUC.">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -173,15 +173,48 @@ body::after {
 .stat-block { border-top: 1px solid var(--line); padding-top: 10px; color: #4A4640; line-height: 1.4; }
 .stat-num { display: block; font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 1.8rem; color: var(--ink); margin-bottom: 2px; }
 
+/* FIX FORMULAR & AUTOFILL - Fortam coduri HEX pure ca sa fentam bugurile de browser */
 .form-row { margin-bottom: 1.2rem; }
 .form-row-split { display: grid; grid-template-columns: 1fr; gap: 0 1rem; }
 @media (min-width: 640px) { .form-row-split { grid-template-columns: 1fr 1fr; } }
 .form-row-split .form-row { margin-bottom: 1.2rem; }
 label { display: block; font-family: 'Space Mono', monospace; font-size: 12px; color: rgba(247, 245, 239, 0.55); margin-bottom: 6px; text-transform: none; }
-input, textarea, select { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(247, 245, 239, 0.3); padding: 10px 2px; color: var(--paper); font-family: 'Archivo', sans-serif; font-size: 15px; transition: border-color 0.25s ease; }
+
+input, textarea, select { 
+  width: 100%; 
+  background: transparent !important; 
+  border: none; 
+  border-bottom: 1px solid rgba(247, 245, 239, 0.3); 
+  padding: 10px 2px; 
+  color: #F7F5EF !important; /* ALB/PAPER FORTAT */
+  font-family: 'Archivo', sans-serif; 
+  font-size: 15px; 
+  transition: border-color 0.25s ease; 
+  border-radius: 0;
+  -webkit-appearance: none;
+}
 textarea { resize: vertical; min-height: 90px; }
 input::placeholder, textarea::placeholder { color: rgba(247, 245, 239, 0.35); }
-input:focus, textarea:focus, select:focus { border-color: var(--cyan); }
+input:focus, textarea:focus, select:focus { border-color: var(--cyan); outline: none; }
+
+/* HACK COMPLET AUTOFILL CULOARE (Rescrie regulile Apple/Chrome) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #F7F5EF !important;
+  color: #F7F5EF !important;
+  -webkit-box-shadow: 0 0 0px 1000px #17140F inset !important;
+  box-shadow: 0 0 0px 1000px #17140F inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 select {
   appearance: none;
   -webkit-appearance: none;
@@ -193,7 +226,7 @@ select {
   padding-right: 24px;
   cursor: pointer;
 }
-select option { background: var(--ink); color: var(--paper); }
+select option { background: #17140F; color: #F7F5EF; }
 #contact-form.is-invalid .form-row input:invalid, #contact-form.is-invalid .form-row textarea:invalid { border-color: var(--magenta); }
 
 .contact-card { border: 1px solid rgba(247, 245, 239, 0.18); padding: 2rem; margin-bottom: 1.5rem; background: rgba(247, 245, 239, 0.03); }
@@ -218,7 +251,7 @@ select option { background: var(--ink); color: var(--paper); }
 /* Bară de progres */
 .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--yellow)); z-index: 60; }
 
-/* Bandă tip "probă de presă" — Marquee Infinit Corectat */
+/* Bandă tip "probă de presă" — Viteză Redusă la 80s */
 .press-tape { 
   overflow: hidden; 
   background: var(--ink); 
@@ -230,7 +263,7 @@ select option { background: var(--ink); color: var(--paper); }
 .press-tape__track { 
   display: flex;
   width: max-content; 
-  animation: tape-scroll 35s linear infinite; 
+  animation: tape-scroll 80s linear infinite; 
 }
 .press-tape__item { 
   display: inline-flex; 
@@ -335,29 +368,28 @@ select option { background: var(--ink); color: var(--paper); }
     </div>
   </section>
 
-  <!-- Bandă cu 4 seturi duplicate pentru o acoperire perfectă -->
+  <!-- Bandă cu 16 seturi = lățime de mii de pixeli ca să ascundă "saltul" de resetare -->
   <div class="press-tape" aria-hidden="true">
     <div class="press-tape__track" id="press-tape-track">
-      <!-- Setul 1 -->
-      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
-      <!-- Setul 2 -->
-      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
-      <!-- Setul 3 -->
-      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
-      <!-- Setul 4 -->
-      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
-      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <!-- JUMĂTATEA 1 -->
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      
+      <!-- JUMĂTATEA 2 (Copie identică pentru reset invizibil) -->
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span><span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span><span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span><span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
     </div>
   </div>
 
@@ -543,7 +575,7 @@ select option { background: var(--ink); color: var(--paper); }
             <dl class="contact-list">
               <div>
                 <dt>Adresă</dt>
-                <dd>Strada Rahovei 41<br>100028 Ploiești</dd>
+                <dd>Str. Marin Brutaru nr. 11<br>Ploiești (Incinta UZUC)</dd>
               </div>
               <div>
                 <dt>Telefon</dt>
@@ -556,9 +588,10 @@ select option { background: var(--ink); color: var(--paper); }
             </dl>
           </div>
           <div class="map-frame">
+            <!-- Pin-ul de Google Maps forțat direct pe Fabrica UZUC prin parametrul 'q=UZUC, Ploiesti' -->
             <iframe
-              title="Locație SEMNE TEHNO S.R.L. — Strada Rahovei 41, Ploiești"
-              src="https://maps.google.com/maps?width=100%25&height=600&hl=ro&q=Strada%20Rahovei%2041,%20Ploie%C8%99ti&t=&z=15&ie=UTF8&iwloc=B&output=embed"
+              title="Locație SEMNE TEHNO S.R.L. — Str. Marin Brutaru nr. 11, Ploiești"
+              src="https://maps.google.com/maps?width=100%25&height=600&hl=ro&q=UZUC,%20Ploiesti&t=&z=15&ie=UTF8&iwloc=B&output=embed"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade">
             </iframe>
@@ -578,7 +611,7 @@ select option { background: var(--ink); color: var(--paper); }
       <span class="font-display font-900 text-base">SEMNE·TEHNO S.R.L.</span>
     </div>
     <p class="font-mono text-xs text-inkfaint text-center">
-      Strada Rahovei 41, 100028 Ploiești · 0745 214 304
+      Str. Marin Brutaru nr. 11, Ploiești (Incinta UZUC) · 0745 214 304
     </p>
     <p class="font-mono text-xs text-inkfaint">© 2026 — toate drepturile rezervate.</p>
   </div>
