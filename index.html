@@ -244,6 +244,7 @@ select option { background: var(--ink); }
 </header>
 
 <main id="top">
+  <!-- Secțiunile Hero, Servicii, Portofoliu, Despre rămân nemodificate -->
   <section class="hero" id="hero">
     <div class="hero-bg" aria-hidden="true">
       <div class="crop-bar crop-bar--tl"></div>
@@ -418,10 +419,17 @@ select option { background: var(--ink); }
         <h2 class="section-title text-paper">Spune-ne ce vrei<br>să tipărim.</h2>
       </div>
       <div class="grid lg:grid-cols-12 gap-12">
-        <form id="contact-form" class="lg:col-span-7 reveal" novalidate>
+        
+        <!-- AICI ESTE FORMULARUL MODIFICAT -->
+        <form id="contact-form" action="https://formsubmit.co/cristinescudarius2@gmail.com" method="POST" class="lg:col-span-7 reveal">
+          
+          <!-- Câmpuri ascunse pentru FormSubmit -->
+          <input type="hidden" name="_subject" value="Cerere de ofertă nouă - SEMNE TEHNO">
+          <input type="hidden" name="_autoresponse" value="Vă mulțumim! Am primit solicitarea și revenim cu o ofertă în scurt timp. - SEMNE TEHNO">
+          
           <div class="form-row">
             <label for="f-name">Nume</label>
-            <input id="f-name" name="name" type="text" required placeholder="Numele tău">
+            <input id="f-name" name="nume" type="text" required placeholder="Numele tău">
           </div>
           <div class="form-row-split">
             <div class="form-row">
@@ -430,12 +438,12 @@ select option { background: var(--ink); }
             </div>
             <div class="form-row">
               <label for="f-phone">Telefon</label>
-              <input id="f-phone" name="phone" type="tel" placeholder="07xx xxx xxx">
+              <input id="f-phone" name="telefon" type="tel" placeholder="07xx xxx xxx">
             </div>
           </div>
           <div class="form-row">
             <label for="f-service">Tip serviciu</label>
-            <select id="f-service" name="service">
+            <select id="f-service" name="serviciu">
               <option value="digital">Print digital</option>
               <option value="offset">Print offset</option>
               <option value="mare">Print format mare</option>
@@ -444,13 +452,14 @@ select option { background: var(--ink); }
           </div>
           <div class="form-row">
             <label for="f-message">Detalii comandă</label>
-            <textarea id="f-message" name="message" rows="4" required placeholder="Format, tiraj, termen dorit..."></textarea>
+            <textarea id="f-message" name="mesaj" rows="4" required placeholder="Format, tiraj, termen dorit..."></textarea>
           </div>
           <button type="submit" class="btn-cta btn-cta--light mt-2">
             <span id="submit-label">Trimite cererea</span>
           </button>
           <p id="form-note" class="font-mono text-xs text-paper/50 mt-4">Răspundem în maximum o zi lucrătoare.</p>
         </form>
+        
         <div class="lg:col-span-5 reveal">
           <div class="contact-card">
             <h3 class="font-display font-700 text-xl text-paper mb-5">Vino la atelier</h3>
@@ -503,7 +512,6 @@ select option { background: var(--ink); }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 (() => {
-  // Suprascrie setarea de sistem pentru a forța animațiile vizual
   const prefersReducedMotion = false;
   const hasGSAP = typeof window.gsap !== 'undefined';
   
@@ -511,7 +519,6 @@ select option { background: var(--ink); }
     gsap.registerPlugin(ScrollTrigger);
   }
 
-  // Lenis Smooth Scroll Init
   if (typeof Lenis !== 'undefined') {
     const lenis = new Lenis({
       duration: 1.2,
@@ -701,6 +708,7 @@ select option { background: var(--ink); }
     document.addEventListener('mouseleave', () => gsap.to(cursor, { opacity: 0, duration: 0.3 }));
   }
 
+  /* SCRIPT MODIFICAT PENTRU A PERMITE TRIMITEREA FORMULARULUI SPRE FORMSUBMIT */
   function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
@@ -708,25 +716,17 @@ select option { background: var(--ink); }
     const note = document.getElementById('form-note');
     
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
+      // Verificăm dacă toate câmpurile sunt completate corect
       if (!form.checkValidity()) {
+        e.preventDefault(); // Oprim trimiterea doar dacă e incomplet
         form.classList.add('is-invalid');
         note.textContent = 'Completează câmpurile obligatorii (nume, email, detalii comandă).';
         note.style.color = '#EC0868';
-        return;
+      } else {
+        // Dacă e corect, schimbăm textul butonului și lăsăm browserul să facă POST
+        form.classList.remove('is-invalid');
+        submitLabel.textContent = 'Se trimite...';
       }
-      
-      form.classList.remove('is-invalid');
-      submitLabel.textContent = 'Se trimite...';
-      
-      setTimeout(() => {
-        submitLabel.textContent = 'Cerere trimisă ✓';
-        note.textContent = 'Am primit cererea ta — revenim în maximum o zi lucrătoare.';
-        note.style.color = 'rgba(247, 245, 239, 0.7)';
-        form.reset();
-        setTimeout(() => { submitLabel.textContent = 'Trimite cererea'; }, 3000);
-      }, 700);
     });
   }
 
