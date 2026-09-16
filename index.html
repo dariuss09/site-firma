@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F7F5EF">
 <title>SEMNE TEHNO S.R.L. — Tipografie Ploiești | Print digital, offset & format mare</title>
 <meta name="description" content="SEMNE TEHNO S.R.L. — tipografie în Ploiești. Print digital, print offset, print format mare și personalizări. Strada Rahovei 41, 100028 Ploiești.">
 
@@ -47,9 +49,11 @@
   --magenta: #EC0868;
   --yellow: #FFD400;
   --line: #D8D2C4;
+  color-scheme: light;
 }
 
-body { font-family: 'Archivo', sans-serif; }
+html { color-scheme: light; background: var(--paper); forced-color-adjust: none; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { font-family: 'Archivo', sans-serif; background: var(--paper); color: var(--ink); forced-color-adjust: none; }
 .font-mono { font-family: 'Space Mono', monospace; }
 .font-900 { font-weight: 900; }
 .font-700 { font-weight: 700; }
@@ -133,8 +137,8 @@ body::after {
 
 .services-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
 @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
-.service-card { background: var(--paper); padding: 2.2rem 2rem; position: relative; transition: background 0.35s ease; }
-.service-card:hover { background: #fffdf8; }
+.service-card { background: var(--paper); padding: 2.2rem 2rem; position: relative; transition: background 0.35s ease, box-shadow 0.35s ease; }
+.service-card:hover { background: #fffdf8; box-shadow: 0 22px 44px -30px rgba(23, 20, 15, 0.4); }
 .service-card__top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem; }
 .service-num { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--inkfaint, #4A4640); }
 .service-swatch { width: 20px; height: 20px; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -156,7 +160,8 @@ body::after {
 
 .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
 @media (min-width: 768px) { .gallery { grid-template-columns: repeat(4, 1fr); } }
-.gallery-item { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); cursor: pointer; }
+.gallery-item { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); cursor: pointer; transition: box-shadow 0.35s ease; }
+.gallery-item:hover { box-shadow: 0 20px 40px -26px rgba(23, 20, 15, 0.5); }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(45%) contrast(1.05); transform: scale(1.02); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease; }
 .gallery-item:hover img { transform: scale(1.12); filter: grayscale(0%) contrast(1.05); }
 .gallery-item figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px; background: linear-gradient(0deg, rgba(23,20,15,0.88), transparent 75%); color: var(--paper); transform: translateY(8px); opacity: 0; transition: transform 0.35s ease, opacity 0.35s ease; }
@@ -177,11 +182,21 @@ input, textarea, select { width: 100%; background: transparent; border: none; bo
 textarea { resize: vertical; min-height: 90px; }
 input::placeholder, textarea::placeholder { color: rgba(247, 245, 239, 0.35); }
 input:focus, textarea:focus, select:focus { border-color: var(--cyan); }
-select { color-scheme: dark; }
-select option { background: var(--ink); }
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  color-scheme: dark;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23F7F5EF' stroke-width='1.6'%3E%3Cpath d='M5 7.5l5 5 5-5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 14px;
+  padding-right: 24px;
+  cursor: pointer;
+}
+select option { background: var(--ink); color: var(--paper); }
 #contact-form.is-invalid .form-row input:invalid, #contact-form.is-invalid .form-row textarea:invalid { border-color: var(--magenta); }
 
-.contact-card { border: 1px solid rgba(247, 245, 239, 0.18); padding: 2rem; margin-bottom: 1.5rem; }
+.contact-card { border: 1px solid rgba(247, 245, 239, 0.18); padding: 2rem; margin-bottom: 1.5rem; background: rgba(247, 245, 239, 0.03); }
 .contact-list { display: grid; gap: 1.2rem; }
 .contact-list dt { font-family: 'Space Mono', monospace; font-size: 11px; color: rgba(247, 245, 239, 0.5); margin-bottom: 4px; }
 .contact-list dd { color: var(--paper); font-size: 15px; line-height: 1.5; }
@@ -199,10 +214,53 @@ select option { background: var(--ink); }
 
 .reg-cursor { position: fixed; top: 0; left: 0; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--ink); pointer-events: none; z-index: 999; transform: translate(-50%, -50%); mix-blend-mode: difference; opacity: 0; transition: opacity 0.3s ease, width 0.25s ease, height 0.25s ease; }
 @media (hover: none), (pointer: coarse) { .reg-cursor { display: none; } }
+
+/* Bară de progres */
+.scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--yellow)); z-index: 60; }
+
+/* Bandă tip "probă de presă" — Marquee Infinit Corectat */
+.press-tape { 
+  overflow: hidden; 
+  background: var(--ink); 
+  border-top: 1px solid var(--line); 
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  white-space: nowrap;
+}
+.press-tape__track { 
+  display: flex;
+  width: max-content; 
+  animation: tape-scroll 35s linear infinite; 
+}
+.press-tape__item { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 10px; 
+  font-family: 'Space Mono', monospace; 
+  font-size: 12.5px; 
+  letter-spacing: 0.04em; 
+  color: rgba(247, 245, 239, 0.85); 
+  padding: 13px 22px; 
+}
+.press-tape__item .dot { 
+  width: 6px; 
+  height: 6px; 
+  border-radius: 50%; 
+}
+@keyframes tape-scroll { 
+  0% { transform: translateX(0); } 
+  100% { transform: translateX(-50%); } 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-tape__track { animation-play-state: paused; }
+  .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
 </style>
 </head>
 <body class="bg-paper text-ink font-display antialiased">
 
+<div id="scroll-progress" class="scroll-progress" aria-hidden="true"></div>
 <div id="reg-cursor" class="reg-cursor" aria-hidden="true"></div>
 
 <header id="navbar" class="navbar">
@@ -263,7 +321,7 @@ select option { background: var(--ink); }
         <span class="hero-line">e la locul ei.</span>
       </h1>
       <p class="max-w-xl mt-8 text-lg md:text-xl text-inkfaint leading-relaxed reveal">
-        Tipografie din Ploiești pentru afaceri care nu-și permit greșeli de reperaj: print digital, offset, format mare și personalizări — livrate la termen, exact cum au fost aprobate în probă.
+        Tipografie din Ploiești pentru companii care nu-și permit erori de reperaj: print digital, offset, format mare și personalizări — livrate la termen, exact așa cum au fost aprobate în probă de tipar.
       </p>
       <div class="mt-10 flex flex-wrap items-center gap-5 reveal">
         <a href="#contact" class="btn-cta btn-cta--lg">
@@ -276,6 +334,32 @@ select option { background: var(--ink); }
       </div>
     </div>
   </section>
+
+  <!-- Bandă cu 4 seturi duplicate pentru o acoperire perfectă -->
+  <div class="press-tape" aria-hidden="true">
+    <div class="press-tape__track" id="press-tape-track">
+      <!-- Setul 1 -->
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <!-- Setul 2 -->
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <!-- Setul 3 -->
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+      <!-- Setul 4 -->
+      <span class="press-tape__item"><span class="dot" style="background:var(--cyan)"></span>Print digital</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--magenta)"></span>Print offset</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--yellow)"></span>Format mare</span>
+      <span class="press-tape__item"><span class="dot" style="background:var(--paper)"></span>Personalizări</span>
+    </div>
+  </div>
 
   <section id="servicii" class="section">
     <div class="max-w-7xl mx-auto px-5 sm:px-8">
@@ -356,35 +440,35 @@ select option { background: var(--ink); }
       </div>
       <div class="gallery" id="gallery">
         <figure class="gallery-item reveal" data-cat="digital">
-          <img src="https://picsum.photos/seed/semne01/640/480" alt="Cărți de vizită tipărite digital" loading="lazy">
+          <img src="https://loremflickr.com/640/480/businesscards,printing?lock=101" alt="Cărți de vizită tipărite digital" loading="lazy">
           <figcaption><span>Cărți de vizită</span><small>Print digital · 350gsm</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="offset">
-          <img src="https://picsum.photos/seed/semne02/640/480" alt="Broșură de prezentare tipărită offset" loading="lazy">
+          <img src="https://loremflickr.com/640/480/brochure,print?lock=102" alt="Broșură de prezentare tipărită offset" loading="lazy">
           <figcaption><span>Broșură de prezentare</span><small>Offset · 24 pag.</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="mare">
-          <img src="https://picsum.photos/seed/semne03/640/480" alt="Banner de exterior format mare" loading="lazy">
+          <img src="https://loremflickr.com/640/480/billboard,advertising?lock=103" alt="Banner de exterior format mare" loading="lazy">
           <figcaption><span>Banner de exterior</span><small>Format mare · PVC</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="personalizat">
-          <img src="https://picsum.photos/seed/semne04/640/480" alt="Cutii personalizate cu gravură" loading="lazy">
+          <img src="https://loremflickr.com/640/480/woodengraving,laser?lock=104" alt="Cutii personalizate cu gravură" loading="lazy">
           <figcaption><span>Ambalaj gravat</span><small>Personalizat · lemn</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="offset">
-          <img src="https://picsum.photos/seed/semne05/640/480" alt="Pliante offset pentru eveniment" loading="lazy">
+          <img src="https://loremflickr.com/640/480/flyers,printing?lock=105" alt="Pliante offset pentru eveniment" loading="lazy">
           <figcaption><span>Pliante eveniment</span><small>Offset · tiraj 5.000</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="digital">
-          <img src="https://picsum.photos/seed/semne06/640/480" alt="Afișe tipărite digital" loading="lazy">
+          <img src="https://loremflickr.com/640/480/poster,printing?lock=106" alt="Afișe tipărite digital" loading="lazy">
           <figcaption><span>Afișe A2</span><small>Print digital · mat</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="mare">
-          <img src="https://picsum.photos/seed/semne07/640/480" alt="Roll-up publicitar" loading="lazy">
+          <img src="https://loremflickr.com/640/480/tradeshow,banner?lock=107" alt="Roll-up publicitar" loading="lazy">
           <figcaption><span>Roll-up 85×200</span><small>Format mare · backlit</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="personalizat">
-          <img src="https://picsum.photos/seed/semne08/640/480" alt="Agende personalizate numerotate" loading="lazy">
+          <img src="https://loremflickr.com/640/480/leather,notebook?lock=108" alt="Agende personalizate numerotate" loading="lazy">
           <figcaption><span>Agende numerotate</span><small>Personalizat · piele eco</small></figcaption>
         </figure>
       </div>
@@ -399,13 +483,13 @@ select option { background: var(--ink); }
       </div>
       <div class="md:col-span-6 md:col-start-7 reveal">
         <p class="text-lg text-inkfaint leading-relaxed mb-6">
-          SEMNE TEHNO S.R.L. produce materiale tipărite pentru companii din Ploiești și din țară, de la prima probă de culoare până la livrarea tirajului complet. Nu trimitem un fișier la mașină fără să-l verificăm noi înșine — de aceea fiecare comandă are un tichet de lucru clar, cu specificațiile aprobate de client.
+          SEMNE TEHNO S.R.L. produce materiale tipărite pentru companii din Ploiești și din toată țara, de la prima probă de culoare până la livrarea tirajului complet. Niciun fișier nu ajunge la mașină fără să fie verificat de noi înainte — de aceea fiecare comandă are un tichet de lucru clar, cu specificațiile aprobate de client de la bun început.
         </p>
         <div class="grid grid-cols-2 gap-6 font-mono text-sm">
-          <div class="stat-block"><span class="stat-num">+12</span>ani de activitate în print</div>
-          <div class="stat-block"><span class="stat-num">4</span>tehnologii de tipar în casă</div>
-          <div class="stat-block"><span class="stat-num">24h</span>timp minim de livrare</div>
-          <div class="stat-block"><span class="stat-num">100%</span>probă aprobată înainte de tiraj</div>
+          <div class="stat-block"><span class="stat-num" data-count-to="12" data-prefix="+">+12</span>ani de activitate în print</div>
+          <div class="stat-block"><span class="stat-num" data-count-to="4">4</span>tehnologii de tipar în casă</div>
+          <div class="stat-block"><span class="stat-num" data-count-to="24" data-suffix="h">24h</span>timp minim de livrare</div>
+          <div class="stat-block"><span class="stat-num" data-count-to="100" data-suffix="%">100%</span>probă aprobată înainte de tiraj</div>
         </div>
       </div>
     </div>
@@ -419,7 +503,6 @@ select option { background: var(--ink); }
       </div>
       <div class="grid lg:grid-cols-12 gap-12">
         
-        <!-- Formular curățat, fără atribute action/method (sunt gestionate de JS) -->
         <form id="contact-form" class="lg:col-span-7 reveal">
           <div class="form-row">
             <label for="f-name">Nume</label>
@@ -702,7 +785,52 @@ select option { background: var(--ink); }
     document.addEventListener('mouseleave', () => gsap.to(cursor, { opacity: 0, duration: 0.3 }));
   }
 
-  /* Logica actualizata pentru conectarea cu Google Sheets */
+  function initCropBarsIntro() {
+    if (!hasGSAP || prefersReducedMotion) return;
+    gsap.from('.crop-bar', { opacity: 0, scale: 0.4, duration: 0.8, stagger: 0.08, delay: 0.15, ease: 'power3.out' });
+  }
+
+  function initScrollProgress() {
+    const bar = document.getElementById('scroll-progress');
+    if (!bar) return;
+    let ticking = false;
+    const update = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+      bar.style.width = pct + '%';
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    });
+    update();
+  }
+
+  function initStatCounters() {
+    if (!hasGSAP || typeof ScrollTrigger === 'undefined' || prefersReducedMotion) return;
+    document.querySelectorAll('.stat-num[data-count-to]').forEach((el) => {
+      const target = parseFloat(el.dataset.countTo);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const counter = { val: 0 };
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        once: true,
+        onEnter: () => {
+          gsap.to(counter, {
+            val: target,
+            duration: 1.3,
+            ease: 'power2.out',
+            onUpdate: () => { el.textContent = prefix + Math.round(counter.val) + suffix; },
+            onComplete: () => { el.textContent = prefix + target + suffix; },
+          });
+        },
+      });
+    });
+  }
+
   function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
@@ -760,6 +888,9 @@ select option { background: var(--ink); }
     safeRun('meniu mobil', initMobileMenu);
     safeRun('filtru portofoliu', initGalleryFilter);
     safeRun('cursor reperaj', initRegistrationCursor);
+    safeRun('intro cropmark-uri', initCropBarsIntro);
+    safeRun('bară progres scroll', initScrollProgress);
+    safeRun('contor cifre', initStatCounters);
     safeRun('formular contact', initContactForm);
     safeRun('plasă de siguranță', safetyNet);
   }
