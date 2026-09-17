@@ -160,7 +160,8 @@ body::after {
 
 .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
 @media (min-width: 768px) { .gallery { grid-template-columns: repeat(4, 1fr); } }
-.gallery-item { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); cursor: pointer; transition: box-shadow 0.35s ease; }
+/* AM SCOS CURSOR: POINTER AICI CA SĂ NU MAI INVITE LA CLICK PE IMAGINI */
+.gallery-item { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); transition: box-shadow 0.35s ease; }
 .gallery-item:hover { box-shadow: 0 20px 40px -26px rgba(23, 20, 15, 0.5); }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(45%) contrast(1.05); transform: scale(1.02); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease; }
 .gallery-item:hover img { transform: scale(1.12); filter: grayscale(0%) contrast(1.05); }
@@ -173,7 +174,7 @@ body::after {
 .stat-block { border-top: 1px solid var(--line); padding-top: 10px; color: #4A4640; line-height: 1.4; }
 .stat-num { display: block; font-family: 'Archivo', sans-serif; font-weight: 900; font-size: 1.8rem; color: var(--ink); margin-bottom: 2px; }
 
-/* FIX FORMULAR & AUTOFILL - Fortam coduri HEX pure ca sa fentam bugurile de browser */
+/* FIX FORMULAR & AUTOFILL */
 .form-row { margin-bottom: 1.2rem; }
 .form-row-split { display: grid; grid-template-columns: 1fr; gap: 0 1rem; }
 @media (min-width: 640px) { .form-row-split { grid-template-columns: 1fr 1fr; } }
@@ -186,7 +187,7 @@ input, textarea, select {
   border: none; 
   border-bottom: 1px solid rgba(247, 245, 239, 0.3); 
   padding: 10px 2px; 
-  color: #F7F5EF !important; /* ALB/PAPER FORTAT */
+  color: #F7F5EF !important; 
   font-family: 'Archivo', sans-serif; 
   font-size: 15px; 
   transition: border-color 0.25s ease; 
@@ -197,7 +198,7 @@ textarea { resize: vertical; min-height: 90px; }
 input::placeholder, textarea::placeholder { color: rgba(247, 245, 239, 0.35); }
 input:focus, textarea:focus, select:focus { border-color: var(--cyan); outline: none; }
 
-/* HACK COMPLET AUTOFILL CULOARE (Rescrie regulile Apple/Chrome) */
+/* HACK COMPLET AUTOFILL CULOARE */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -251,7 +252,7 @@ select option { background: #17140F; color: #F7F5EF; }
 /* Bară de progres */
 .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--yellow)); z-index: 60; }
 
-/* Bandă tip "probă de presă" — Viteză Redusă la 80s */
+/* Bandă tip "probă de presă" */
 .press-tape { 
   overflow: hidden; 
   background: var(--ink); 
@@ -285,10 +286,8 @@ select option { background: #17140F; color: #F7F5EF; }
   100% { transform: translateX(-50%); } 
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .press-tape__track { animation-play-state: paused; }
-  .reveal { opacity: 1 !important; transform: none !important; animation: none !important; }
-}
+/* AM SCOS RESTRICTIA CARE BLOCA BANDA RULANTA PE WINDOWS */
+
 </style>
 </head>
 <body class="bg-paper text-ink font-display antialiased">
@@ -480,7 +479,8 @@ select option { background: #17140F; color: #F7F5EF; }
           <figcaption><span>Broșură de prezentare</span><small>Offset · 24 pag.</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="mare">
-          <img src="https://loremflickr.com/640/480/billboard,advertising?lock=103" alt="Banner de exterior format mare" loading="lazy">
+          <!-- SCOS CUVANTUL "ADVERTISING" CA SA NU DEA CRASH LA ADBLOCK-URI -->
+          <img src="https://loremflickr.com/640/480/banner,print?lock=103" alt="Banner de exterior format mare" loading="lazy">
           <figcaption><span>Banner de exterior</span><small>Format mare · PVC</small></figcaption>
         </figure>
         <figure class="gallery-item reveal" data-cat="personalizat">
@@ -622,7 +622,6 @@ select option { background: #17140F; color: #F7F5EF; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 (() => {
-  const prefersReducedMotion = false;
   const hasGSAP = typeof window.gsap !== 'undefined';
   
   if (hasGSAP && typeof window.ScrollTrigger !== 'undefined') {
@@ -658,7 +657,7 @@ select option { background: #17140F; color: #F7F5EF; }
   }
 
   function buildRegistrationEffect() {
-    if (!hasGSAP || prefersReducedMotion) return;
+    if (!hasGSAP) return;
     const lines = document.querySelectorAll('.hero-line');
     if (!lines.length) return;
     
@@ -703,7 +702,7 @@ select option { background: #17140F; color: #F7F5EF; }
 
   function initParallax() {
     const pressLines = document.getElementById('press-lines');
-    if (!pressLines || !hasGSAP || typeof ScrollTrigger === 'undefined' || prefersReducedMotion) return;
+    if (!pressLines || !hasGSAP || typeof ScrollTrigger === 'undefined') return;
     
     gsap.to(pressLines, {
       yPercent: 18,
@@ -740,7 +739,7 @@ select option { background: #17140F; color: #F7F5EF; }
 
   function initScrollReveal() {
     const items = document.querySelectorAll('.reveal');
-    if (prefersReducedMotion || typeof IntersectionObserver === 'undefined') {
+    if (typeof IntersectionObserver === 'undefined') {
       items.forEach((el) => el.classList.add('is-visible'));
       return;
     }
@@ -791,7 +790,7 @@ select option { background: #17140F; color: #F7F5EF; }
           const match = filter === 'all' || item.dataset.cat === filter;
           if (match) {
             item.classList.remove('is-hidden');
-            if (hasGSAP && !prefersReducedMotion) {
+            if (hasGSAP) {
               gsap.fromTo(item, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
             }
           } else {
@@ -810,7 +809,8 @@ select option { background: #17140F; color: #F7F5EF; }
       gsap.to(cursor, { x: e.clientX, y: e.clientY, opacity: 1, duration: 0.15, ease: 'power2.out' });
     });
     
-    document.querySelectorAll('a, button, .service-card, .gallery-item').forEach((el) => {
+    // AM SCOS .gallery-item DE LA HOVER CA SA NU PARA CA SUNT CLICKABLE
+    document.querySelectorAll('a, button, .service-card').forEach((el) => {
       el.addEventListener('mouseenter', () => gsap.to(cursor, { width: 40, height: 40, duration: 0.25 }));
       el.addEventListener('mouseleave', () => gsap.to(cursor, { width: 22, height: 22, duration: 0.25 }));
     });
@@ -819,7 +819,7 @@ select option { background: #17140F; color: #F7F5EF; }
   }
 
   function initCropBarsIntro() {
-    if (!hasGSAP || prefersReducedMotion) return;
+    if (!hasGSAP) return;
     gsap.from('.crop-bar', { opacity: 0, scale: 0.4, duration: 0.8, stagger: 0.08, delay: 0.15, ease: 'power3.out' });
   }
 
@@ -841,7 +841,7 @@ select option { background: #17140F; color: #F7F5EF; }
   }
 
   function initStatCounters() {
-    if (!hasGSAP || typeof ScrollTrigger === 'undefined' || prefersReducedMotion) return;
+    if (!hasGSAP || typeof ScrollTrigger === 'undefined') return;
     document.querySelectorAll('.stat-num[data-count-to]').forEach((el) => {
       const target = parseFloat(el.dataset.countTo);
       const prefix = el.dataset.prefix || '';
